@@ -1,6 +1,10 @@
 # @file restore.py
 import logging
 import utils
+<<<<<<< HEAD
+from utils import restore_backup
+=======
+>>>>>>> 42b547ea12cf5a27d9c1f2c7707d2fe1482895ab
 
 
 LOG = logging.getLogger(__name__)
@@ -22,26 +26,19 @@ def make(parser):
     parser.set_defaults(func=restore)
 
 def restore_bck(id):
-    if isinstance(id, int):
-        utils.backup_list()
-        if id in utils.file_list.keys():
-            LOG.info('Starting Restore ...')
-            LOG.info('It will take about 30 minutes, Please wait ...\n')
-            (stat, out) = utils.restore_backup(id)
-            if stat != 0:
-                check = """
-            * The Fuel version is the same release as the backup.
-            * There are no deployments running.
-            * At least 11GB free space in /var.
-                """
-                LOG.error('Unexpected Error')
-                LOG.error('Please check the information below:\n %s', check)
-                print out
-            else:
-                LOG.info('Restore successfully completed!\n')
-        else:
-            LOG.error('The ID does not exist! please try again.\n')
-    else:
-        LOG.error('Please enter a integer number.\n')
+     LOG.info('Starting Restore ...')
+     LOG.info('It will take about 30 minutes, Please wait ...\n')
+     (stat, out) = restore_backup(id)                              
+     if stat != 0:
+         LOG.error('%s', out)            
+         check = """
+     * The Fuel version is the same release as the backup.
+     * There are no deployments running.
+     * At least 11GB free space in /var.
+         """
+         LOG.error('Unexpected Error')
+         LOG.error('Please check the information below:\n %s', check)
+     else:
+         LOG.info('Restore successfully completed!\n')
 
 
