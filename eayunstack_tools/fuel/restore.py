@@ -1,10 +1,6 @@
 # @file restore.py
 import logging
-import utils
-<<<<<<< HEAD
 from utils import restore_backup
-=======
->>>>>>> 42b547ea12cf5a27d9c1f2c7707d2fe1482895ab
 
 
 LOG = logging.getLogger(__name__)
