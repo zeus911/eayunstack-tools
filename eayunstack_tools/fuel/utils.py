@@ -31,6 +31,7 @@ def backup_list():
             c_date = file_split[2]
             c_time = file_split[3].split('.', 1)[0][:2] + ':' + file_split[3].split('.', 1)[0][2:]
             backup_file = backup_dir
+            dir_list[i] = ''
             file_list[i] = backup_file
         else:
             file_split = backup_dir.split('_', 2)
