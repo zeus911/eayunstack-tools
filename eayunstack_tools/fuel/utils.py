@@ -27,16 +27,20 @@ def backup_list():
         if not_backup in backup_dir:
             continue
         elif os.path.isfile(BACKUP_DIR + '/' + backup_dir):
-            c_time = backup_dir[12:25] + ':' + backup_dir[25:27]
+            file_split = backup_dir.split('_', 4)
+            c_date = file_split[2]
+            c_time = file_split[3].split('.', 1)[0][:2] + ':' + file_split[3].split('.', 1)[0][2:]
             backup_file = backup_dir
             file_list[i] = backup_file
         else:
-            c_time = backup_dir[7:20] + ':' + backup_dir[20:22]
+            file_split = backup_dir.split('_', 2)
+            c_date = file_split[1]
+            c_time = file_split[2][:2] + ':' + file_split[2][2:]
             backup_file = os.listdir(BACKUP_DIR + '/' + backup_dir + '/')
             dir_list[i] = backup_dir
             file_list[i] = backup_file[0]
         # Put the result in a dictory, every sub-dir has only one backup file
-        t.add_row([i, c_time, file_list[i]])
+        t.add_row([i, c_date + ' ' + c_time, file_list[i]])
         i += 1
     return t
 
