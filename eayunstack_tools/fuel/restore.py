@@ -1,6 +1,6 @@
 # @file restore.py
 import logging
-from utils import restore_backup
+from utils import backup_list
 
 
 LOG = logging.getLogger(__name__)
@@ -22,12 +22,15 @@ def make(parser):
     parser.set_defaults(func=restore)
 
 def restore_bck(id):
-     LOG.info('Starting Restore ...')
-     LOG.info('It will take about 30 minutes, Please wait ...\n')
-     (stat, out) = restore_backup(id)                              
-     if stat != 0:
-         LOG.error('%s', out)            
-     else:
-         LOG.info('Restore successfully completed!\n')
+    LOG.info('Starting Restore ...')
+    LOG.info('It will take about 30 minutes, Please wait ...\n')
+    backup_list()
+    if id in file_list.keys():
+        backup_file = BACKUP_DIR + '/' + dir_list[id] + '/' + file_list[id]
+        (stat, out) = commands.getstatusoutput('dockerctl restore %s' % (backup_file))
+        if stat != 0:
+            LOG.error('%s', out)            
+        else:
+            LOG.info('Restore successfully completed!\n')
 
 

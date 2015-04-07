@@ -1,4 +1,4 @@
-from utils import backup_list, backup_new
+from utils import backup_list
 import logging
 
 # Use the default DIR to backup
@@ -34,7 +34,7 @@ def make(parser):
 def new_backup():
     LOG.info('Starting Backup ...')
     LOG.info('It will take about 30 minutes, Please wait ...')
-    (stat, out) = backup_new()
+    (stat, out) = commands.getstatusoutput('dockerctl backup')
     if stat != 0:
         LOG.error('%s', out)
     else:

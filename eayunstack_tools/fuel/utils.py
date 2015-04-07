@@ -12,10 +12,6 @@ dir_list = {}
 file_list = {}
 
 
-def backup_new():
-    (stat, out) = commands.getstatusoutput('dockerctl backup')
-    return (stat, out)
-
 def backup_list():
     backup_dirs = os.listdir(BACKUP_DIR + '/')
     backup_dirs.sort(compare)
@@ -44,15 +40,6 @@ def backup_list():
         t.add_row([i, c_date + ' ' + c_time, file_list[i]])
         i += 1
     return t
-
-def restore_backup(id):
-    backup_list()
-    if id in file_list.keys():
-        backup_file = BACKUP_DIR + '/' + dir_list[id] + '/' + file_list[id]
-        (stat, out) = commands.getstatusoutput('dockerctl restore %s' % (backup_file))
-        return (stat, out)
-    else:
-        return (1, 'The ID does not exist! please try again.\n')
 
 
 # Sort the file, the file of most recent content modification will located at the end of the table
