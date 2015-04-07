@@ -1,7 +1,6 @@
 # @file utils.py
 import os
 import commands
-import time
 from prettytable import PrettyTable
 import logging
 
@@ -11,6 +10,7 @@ BACKUP_DIR = '/var/backup/fuel'
 
 dir_list = {}
 file_list = {}
+
 
 def backup_new():
     (stat, out) = commands.getstatusoutput('dockerctl backup')

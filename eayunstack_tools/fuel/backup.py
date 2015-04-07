@@ -36,12 +36,7 @@ def new_backup():
     LOG.info('It will take about 30 minutes, Please wait ...')
     (stat, out) = backup_new()
     if stat != 0:
-        check = """
-            * No deployment tasks are currently running.
-            * You have at least 11GB free disk space in /var.
-        """
-        LOG.error('Unexpected Error')
-        LOG.error('Please check the information below:\n %s', check)
+        LOG.error('%s', out)
     else:
         LOG.info('Backup successfully completed!\n')
         print 'You can use "eayunstack fuel backup [ -l | --list ]" to list your backups\n'

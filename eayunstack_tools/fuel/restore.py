@@ -27,13 +27,6 @@ def restore_bck(id):
      (stat, out) = restore_backup(id)                              
      if stat != 0:
          LOG.error('%s', out)            
-         check = """
-     * The Fuel version is the same release as the backup.
-     * There are no deployments running.
-     * At least 11GB free space in /var.
-         """
-         LOG.error('Unexpected Error')
-         LOG.error('Please check the information below:\n %s', check)
      else:
          LOG.info('Restore successfully completed!\n')
 
