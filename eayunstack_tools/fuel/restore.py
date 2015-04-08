@@ -10,6 +10,8 @@ LOG = logging.getLogger(__name__)
 def restore(parser):
     if parser.ID:
         restore_bck(parser.ID)
+    elif parser.FILE:
+        restore_file(parser.FILE)
     else:
         parser.help
 
@@ -23,9 +25,17 @@ def make(parser):
         type = int,
         help = 'Specify the ID you want to restore'
     )
+    parser.add_argument(
+        '-f',
+        '--file',
+        action = 'store',
+        dest = 'FILE',
+        help = 'Specify the backup path to restore'
+    )
     parser.set_defaults(func=restore)
 
-def restore_bck(id):
+
+def restore_id(id):
     LOG.info('Starting Restore ...')
     LOG.info('It will take about 30 minutes, Please wait ...\n')
     backups = read_db()
@@ -51,4 +61,13 @@ def restore_bck(id):
     else:
         LOG.error('The ID does not exist, Please try again.\n')
 
+
+def restore_file(backup_path):
+    LOG.info('Starting Restore ...')
+    LOG.info('It will take about 30 minutes, Please wait ...\n')
+    (stat, out) = commands.getstatusoutput('dockerctl restore %s' % backup_path)
+    if stat != 0:
+        LOG.error('%s', out)
+    else:
+        LOG.info('Restore successfully completed!\n')
 
