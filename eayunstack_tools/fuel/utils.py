@@ -42,29 +42,30 @@ def read_db():
     db.close()
     return lines
 
-def backup_dict():
+def latest_backup():
+    """Get The Latest Backup File"""
+    # The latest backup file means the new backup file
     # Use sorted() method to sort by filename
     backup_dirs = sorted(os.listdir(BACKUP_DIR + '/'))
     not_backup = 'restore'
-    for backup_dir in backup_dirs:
-        if not_backup in backup_dir:
-            continue
-        elif os.path.isfile(BACKUP_DIR + '/' + backup_dir):
-            backup_file = backup_dir
-            dir_list[i] = ''
-            file_list[i] = backup_file
-        else:
-            backup_file = os.listdir(BACKUP_DIR + '/' + backup_dir + '/')
-            dir_list[i] = backup_dir
-            file_list[i] = backup_file[0]
-    return file_list
+    if len(backup_dirs) != 0:
+        i = 1
+        while True:
+            if not_backup in backup_dirs[-i]:
+                i += 1
+            elif os.path.isfile(BACKUP_DIR + '/' + backup_dirs[-i]):
+                # FIXME: Did not consider isfile
+                i += 1
+            else:
+                latest_backup = os.listdir(BACKUP_DIR + '/' + backup_dirs[-i] + '/')[0]
+                return latest_backup
+                break
+
 
 def write_db():
     # append
     db = open('/tmp/tools.db', 'a')
-    backup_dict()
-    id = file_list.keys()[-1]
-    backup_file = file_list[id]
+    backup_file = latest_backup()
     db.writelines('%s' % id + ' ' + '%s\n' % backup_file)
     db.close()
 
