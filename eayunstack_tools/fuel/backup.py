@@ -1,4 +1,6 @@
 from utils import backup_list
+from utils import read_db, write_db
+import commands
 import logging
 
 # Use the default DIR to backup
@@ -8,7 +10,9 @@ LOG = logging.getLogger(__name__)
 def backup(parser):
     if parser.NEW_BACKUP:
         new_backup()
-    if parser.LIST_BACKUP:
+    elif parser.LIST_BACKUP:
+        list_backup()
+    else:
         list_backup()
 
 def make(parser):
@@ -40,6 +44,17 @@ def new_backup():
     else:
         LOG.info('Backup successfully completed!\n')
         print 'You can use "eayunstack fuel backup [ -l | --list ]" to list your backups\n'
+        # 1) read db to get last_id
+        lines = read_db()
+        id = 1
+        if len(lines) == 0:
+            write_db(id)
+        else:
+            # 2) create new id
+            id = int(lines[-1].split(' ')[0])
+            id += 1
+            # 3) write to db
+            write_db(id)
 
 def list_backup():
     t = backup_list()
